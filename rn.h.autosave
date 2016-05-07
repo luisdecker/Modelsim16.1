@@ -1,0 +1,16 @@
+#ifndef RN_H
+#define RN_H
+
+
+namespace RN {
+enum TipoDist{constante}
+	class VarAletoria {
+	public:
+		VarAleatoria();
+
+	signals:
+
+	public slots:
+	};
+}
+#endif // RN_H
