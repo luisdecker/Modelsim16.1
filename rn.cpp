@@ -11,11 +11,31 @@ double RN::VarAletoria::obterVariavelAleatoria( TipoDist distribuicao,... ) {
     }
     va_end( ap );
     switch ( distribuicao ) {
-        case constante: {break;}
-        case triangular: { break;}
-        case exponencial: { break;}
-        case normal: { break;}
-        case uniforme: { break;}
+        case constante: {
+            RN::Constante distConstante( args[0] );
+            return distConstante();
+            break;
+        }
+        case triangular: {
+            RN::Triangular distTriangular( args[0],args[1],args[2] );
+            return distTriangular();
+            break;
+        }
+        case exponencial: {
+            RN::Exponencial distExponencial( args[0] );
+            return distExponencial();
+            break;
+        }
+        case normal: {
+            RN::Normal distNormal( args[0],args[1] );
+            return distNormal();
+            break;
+        }
+        case uniforme: {
+            RN::Uniforme distUniforme( args[0],args[1] );
+            return distUniforme();
+            break;
+        }
     }
 }
 //=============================================================================

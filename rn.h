@@ -16,7 +16,7 @@ namespace RN {
 
     class Distribuicao {
     public:
-        Distribuicao();
+
         virtual double gerarVariavelAleatoria() = 0;
         virtual double operator() () = 0;
     };
@@ -25,7 +25,7 @@ namespace RN {
     public:
         Constante ( double valor ): valor( valor ) {}
         double gerarVariavelAleatoria();
-        double operator ()() {return gerarVariavelAleatoria();}
+        double operator() () {return gerarVariavelAleatoria();}
     private:
         double valor;
 
@@ -34,7 +34,7 @@ namespace RN {
     public:
         Triangular( double a, double b, double c ):a( a ), b( b ),c( c ) {}
         double gerarVariavelAleatoria();
-        double operator ()() {return gerarVariavelAleatoria();}
+        double operator()() {return gerarVariavelAleatoria();}
     private:
         double a,b,c;
     };
@@ -42,7 +42,7 @@ namespace RN {
     public :
         Exponencial( double media ):media( media ) {}
         double gerarVariavelAleatoria();
-        double operator ()() {return gerarVariavelAleatoria();}
+        double operator()() {return gerarVariavelAleatoria();}
 
     private:
         double media;
@@ -51,7 +51,7 @@ namespace RN {
     public:
         Normal( double media, double desvio ):media( media ),desvio( desvio ) {proximoCalculado = false;}
         double gerarVariavelAleatoria();
-        double operator ()() {return gerarVariavelAleatoria();}
+        double operator()() {return gerarVariavelAleatoria();}
     private:
         double media,desvio,proximo;
         bool proximoCalculado;
@@ -61,7 +61,7 @@ namespace RN {
     public:
         Uniforme( double minimo, double maximo ):minimo( minimo ), maximo( maximo ) {}
         double gerarVariavelAleatoria();
-        double operator ()() {return gerarVariavelAleatoria();}
+        double operator()() {return gerarVariavelAleatoria();}
     private:
         double minimo,maximo;
     };
