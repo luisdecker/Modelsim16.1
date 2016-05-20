@@ -1,55 +1,7 @@
 #include "rn.h"
 //Funcoes da fachada
 //=============================================================================
-double RN::VarAletoria::obterVariavelAleatoria( TipoDist distribuicao,... ) {
-    va_list ap;
-    int numeroArgumentos = obterNumeroArgumentos( distribuicao );
-    va_start( ap,numeroArgumentos );
-    std::vector <double> args;
-    for( int i = 1; i <= numeroArgumentos; i++ ) {
-        args.push_back( va_arg( ap,double ) );
-    }
-    va_end( ap );
-    switch ( distribuicao ) {
-        case constante: {
-            RN::Constante distConstante( args[0] );
-            return distConstante();
-            break;
-        }
-        case triangular: {
-            RN::Triangular distTriangular( args[0],args[1],args[2] );
-            return distTriangular();
-            break;
-        }
-        case exponencial: {
-            RN::Exponencial distExponencial( args[0] );
-            return distExponencial();
-            break;
-        }
-        case normal: {
-            RN::Normal distNormal( args[0],args[1] );
-            return distNormal();
-            break;
-        }
-        case uniforme: {
-            RN::Uniforme distUniforme( args[0],args[1] );
-            return distUniforme();
-            break;
-        }
-    }
-}
-//=============================================================================
-int RN::VarAletoria::obterNumeroArgumentos( TipoDist distribuicao ) {
-    int numeroArgumentos = 0;
-    switch ( distribuicao ) {
-        case constante: {numeroArgumentos = 1; break;}
-        case triangular: {numeroArgumentos = 3; break;}
-        case exponencial: {numeroArgumentos = 1; break;}
-        case normal: {numeroArgumentos = 2; break;}
-        case uniforme: {numeroArgumentos = 2; break;}
-    }
-    return numeroArgumentos;
-}
+
 //=============================================================================
 //Geracao de variáveis das distribuicoes
 double RN::Constante::gerarVariavelAleatoria() {

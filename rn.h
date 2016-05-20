@@ -7,18 +7,13 @@
 
 namespace RN {
     enum TipoDist {constante, triangular, exponencial, normal, uniforme};
-    class VarAletoria {
-    public:
-        static double obterVariavelAleatoria( TipoDist Distribuicao,... );
-    private:
-        static int obterNumeroArgumentos( TipoDist Distribuicao );
-    };
 
     class Distribuicao {
     public:
 
-        virtual double gerarVariavelAleatoria() = 0;
-        virtual double operator() () = 0;
+        virtual double gerarVariavelAleatoria() {return 666;};
+        virtual double operator() () {return 666;};
+        virtual ~Distribuicao() {};
     };
 
     class Constante : public Distribuicao {

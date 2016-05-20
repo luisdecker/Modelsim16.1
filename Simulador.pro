@@ -10,13 +10,29 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = Simulador
 TEMPLATE = app
-
+QMAKE_CXXFLAGS += -std=c++14
 
 SOURCES += main.cpp\
         janelaprincipal.cpp \
-    rn.cpp
+    rn.cpp \
+    caminhao.cpp \
+    calendarioeventos.cpp \
+    evento.cpp \
+    relogio.cpp \
+    simulador.cpp \
+    estacaocarregamento.cpp \
+    estacaopesagem.cpp \
+    estradatransporte.cpp
 
 HEADERS  += janelaprincipal.h \
-    rn.h
+    rn.h \
+    caminhao.h \
+    calendarioeventos.h \
+    evento.h \
+    relogio.h \
+    simulador.h \
+    estacaocarregamento.h \
+    estacaopesagem.h \
+    estradatransporte.h
 
 FORMS    += janelaprincipal.ui
