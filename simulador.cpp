@@ -99,10 +99,22 @@ void Simulador::trocarDistTransporte( RN::Distribuicao novaDist ) {
     estrada.modificarDistribuicaoTT( novaDist );
 }
 
+/*==============================================
+            Métodos Estatísticos
+===============================================*/
 
 
-
-
+void Simulador::atualizarEstatisticasFilaCarregamento() {
+    maximoFilaCarregamento = estacaoCarregamento.maximoFila();
+    minimoFilaCarregamento = estacaoCarregamento.minimoFila();
+    mediaFilaCarregamento = estacaoCarregamento.mediaFila();
+}
+//===============================================
+void Simulador::atualizarEstatisticasFilaPesagem() {
+    maximoFilaPesagem = estacaoPesagem.maximoFila();
+    minimoFilaPesagem = estacaoPesagem.minimoFila();
+    mediaFilaPesagem = estacaoPesagem.mediaFila();
+}
 
 
 

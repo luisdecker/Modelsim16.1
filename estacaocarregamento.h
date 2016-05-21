@@ -11,14 +11,23 @@ class EstacaoCarregamento {
 public:
     EstacaoCarregamento();
     EstacaoCarregamento( RN::Distribuicao distribuicaoProbabilidadeTC );
+
     /*Enfilera um caminhão, caso esteja ocupado
       Retorna um evento para a hora de carga do caminhao*/
     Evento *enfileirarCaminhao( Caminhao *caminhao, Relogio horaAtual );
+
     /*Calcula o tempo de atendimento do caminhão, e atualiza os tempos livres*/
     Evento *carregarCaminhao( Caminhao *caminhao, Relogio horaAtual );
+
     void modificarDistribuicaoTC( RN::Distribuicao dist );
-    void retirarCaminhao(Caminhao* caminhao);
+    void retirarCaminhao( Caminhao *caminhao );
+
     double mediaFila();
+    int maximoFila() {return maximoEntidadesNaFila;}
+    int minimoFila() {return minimoEntidadesNaFila;}
+
+    bool estacao1Livre() {return livre[0];}
+    bool estacao2Livre() {return livre[1];}
 private:
     RN::Distribuicao distTC; //Distribuicao de variaveis aleatorias;
 
@@ -34,7 +43,7 @@ private:
 
     int tempoTotalOcupacaoPlataforma[2] = {0,0};
 
-    Caminhao* caminhaoOcupandoPlataforma[2];//Caminhão que está ocupado a n plataforma.
+    Caminhao *caminhaoOcupandoPlataforma[2];//Caminhão que está ocupado a n plataforma.
 
     int totalEntidadesEnfileiradas;
     std::vector<int> somaFila;

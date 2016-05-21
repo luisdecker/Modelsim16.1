@@ -17,8 +17,12 @@ public:
     /*Calcula o tempo de atendimento do caminhão, e atualiza os tempos livres*/
     Evento *pesarCaminhao( Caminhao *caminhao, Relogio horaAtual );
     void modificarDistribuicaoTC( RN::Distribuicao dist );
-    double mediaFila();
+
     void retirarCaminhao();
+
+    double mediaFila();
+    int maximoFila() {return maximoEntidadesNaFila;}
+    int minimoFila() {return minimoEntidadesNaFila;}
 private:
     RN::Distribuicao distTP; //Distribuicao de variaveis aleatorias;
 
