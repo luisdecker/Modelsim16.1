@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     simulador.cpp \
     estacaocarregamento.cpp \
     estacaopesagem.cpp \
-    estradatransporte.cpp
+    estradatransporte.cpp \
+    janelaconfiguracao.cpp
 
 HEADERS  += janelaprincipal.h \
     rn.h \
@@ -33,6 +34,11 @@ HEADERS  += janelaprincipal.h \
     simulador.h \
     estacaocarregamento.h \
     estacaopesagem.h \
-    estradatransporte.h
+    estradatransporte.h \
+    janelaconfiguracao.h
 
-FORMS    += janelaprincipal.ui
+FORMS    += janelaprincipal.ui \
+    janelaconfiguracao.ui
+
+DISTFILES += \
+    TODO

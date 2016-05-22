@@ -1,7 +1,9 @@
 #ifndef ESTACAOPESAGEM_H
 #define ESTACAOPESAGEM_H
+
+#include <algorithm>
+#include <vector>
 #include "relogio.h"
-#include <list>
 #include "caminhao.h"
 #include "evento.h"
 #include "rn.h"
@@ -20,9 +22,18 @@ public:
 
     void retirarCaminhao();
 
+    //Estatisticas de numero de entidades na fila
     double mediaFila();
     int maximoFila() {return maximoEntidadesNaFila;}
     int minimoFila() {return minimoEntidadesNaFila;}
+
+    //Esatistica de tempos de entidade na fila
+    int getTempoMaximoFila() {atualizaEstatisticasTempoFila(); return tempoMaximoFila.getSegundosSimulacao();}
+    int getTempoMinimoFila() {atualizaEstatisticasTempoFila(); return tempoMinimoFila.getSegundosSimulacao();}
+    double getMediaTempoFila();
+
+
+    bool estacaoLivre() {return livre;}
 private:
     RN::Distribuicao distTP; //Distribuicao de variaveis aleatorias;
 
@@ -30,9 +41,12 @@ private:
 
     void aumentaNumeroNaFila();//Aumenta o número de entidades na fila;
     void diminuiNumeroNaFila();//Diminui o numero de entidades na fila;
+
     Relogio tempoMinimoFila;//Menor tempo em que uma entidade ficou na fila;
     Relogio tempoMaximoFila;//Maior tempo em que uma entidade ficou na fila;
-    std::list<Relogio *> temposDeFila; //Tempos em que entidades ficaram em fila;
+    std::vector<Relogio > temposDeFila; //Tempos em que entidades ficaram em fila;
+    void atualizaEstatisticasTempoFila ();
+
     std::vector<int> somaFila;
     int totalEntidadesEnfileiradas;
 

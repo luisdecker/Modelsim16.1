@@ -1,24 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>JanelaPrincipal</class>
- <widget class="QMainWindow" name="JanelaPrincipal" >
-  <property name="geometry" >
+ <widget class="QMainWindow" name="JanelaPrincipal">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>699</width>
+    <height>512</height>
    </rect>
   </property>
-  <property name="windowTitle" >
-   <string>JanelaPrincipal</string>
+  <property name="font">
+   <font>
+    <family>Ubuntu Mono</family>
+   </font>
   </property>
-  <widget class="QMenuBar" name="menuBar" />
-  <widget class="QToolBar" name="mainToolBar" />
-  <widget class="QWidget" name="centralWidget" />
-  <widget class="QStatusBar" name="statusBar" />
+  <property name="windowTitle">
+   <string>Siga bem caminhoneiro</string>
+  </property>
+  <property name="locale">
+   <locale language="Portuguese" country="Brazil"/>
+  </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Rounded</enum>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="6" column="0">
+     <widget class="QLabel" name="minimoEntidadesFilaCarregamento">
+      <property name="text">
+       <string>Minimo de entidades</string>
+      </property>
+     </widget>
+    </item>
+    <item row="14" column="5">
+     <widget class="QLabel" name="tempoMaximoFilaPesagem">
+      <property name="text">
+       <string>Tempo maximo na fila</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QPushButton" name="botaoInciarPausar">
+      <property name="text">
+       <string>Iniciar Simulacao</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="5">
+     <widget class="QLabel" name="maximoEntidadesPesagem">
+      <property name="text">
+       <string>Maximo de entidades</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0" colspan="2">
+     <widget class="Line" name="line_8">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="7">
+     <widget class="QLabel" name="tituloGerais">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Estatisticas Gerais</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="0">
+     <widget class="Line" name="line_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="maximoEntidadesFilaCarregamento">
+      <property name="text">
+       <string>Maximo de entidades</string>
+      </property>
+     </widget>
+    </item>
+    <item row="15" column="5">
+     <widget class="QLabel" name="tempoMedioFilaPesagem">
+      <property name="text">
+       <string>Tempo medio na fila</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="0">
+     <widget class="QLabel" name="mediaEntidadesFilaCarregamento">
+      <property name="text">
+       <string>Media de entidades</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1" rowspan="4">
+     <widget class="Line" name="line">
+      <property name="contextMenuPolicy">
+       <enum>Qt::PreventContextMenu</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="lineWidth">
+       <number>2</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="14" column="0">
+     <widget class="QLabel" name="tempoMaximoFilaCarregamento">
+      <property name="text">
+       <string>Tempo maximo na fila</string>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="0">
+     <widget class="Line" name="line_5">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="5">
+     <widget class="QLabel" name="minimoEntidadesPesagem">
+      <property name="text">
+       <string>Minimo de entidades</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QPushButton" name="botaoConfigurar">
+      <property name="text">
+       <string>Configurar Simulador</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="tituloFilaCarregamento">
+      <property name="font">
+       <font>
+        <family>Ubuntu Mono</family>
+        <pointsize>11</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Fila de carregamento</string>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="0">
+     <widget class="QLabel" name="taxaOcupacaoCarregamento">
+      <property name="text">
+       <string>Taxa media de ocupacao</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="5">
+     <widget class="QPushButton" name="botaoSimularPasso">
+      <property name="text">
+       <string>Simular um passo</string>
+      </property>
+     </widget>
+    </item>
+    <item row="13" column="0">
+     <widget class="QLabel" name="tempoMinimoFilaCarregamento">
+      <property name="text">
+       <string>Tempo mínimo na fila</string>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="1">
+     <widget class="Line" name="line_4">
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="lineWidth">
+       <number>2</number>
+      </property>
+      <property name="midLineWidth">
+       <number>1</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="5">
+     <widget class="Line" name="line_3">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="13" column="5">
+     <widget class="QLabel" name="tempoMinimoFilaPesagem">
+      <property name="text">
+       <string>Tempo mínimo na fila</string>
+      </property>
+     </widget>
+    </item>
+    <item row="15" column="0">
+     <widget class="QLabel" name="tempoMedioFilaCarregamento">
+      <property name="text">
+       <string>Tempo medio na fila</string>
+      </property>
+     </widget>
+    </item>
+    <item row="13" column="1" rowspan="3">
+     <widget class="Line" name="line_7">
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="lineWidth">
+       <number>2</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="5">
+     <widget class="QLabel" name="taxaOcupacaoPesagem">
+      <property name="text">
+       <string>Taxa media de ocupacao</string>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="5">
+     <widget class="Line" name="line_6">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="5">
+     <widget class="Line" name="line_9">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="5">
+     <widget class="QLabel" name="mediaEntidadesPesagem">
+      <property name="text">
+       <string>Media de entidades</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="5">
+     <widget class="QLabel" name="titulaFilaPesagem">
+      <property name="font">
+       <font>
+        <family>Ubuntu Mono</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Fila de pesagem</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="6" rowspan="4">
+     <widget class="Line" name="line_10">
+      <property name="contextMenuPolicy">
+       <enum>Qt::PreventContextMenu</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="lineWidth">
+       <number>2</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="6">
+     <widget class="Line" name="line_11">
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="lineWidth">
+       <number>2</number>
+      </property>
+      <property name="midLineWidth">
+       <number>1</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="13" column="6" rowspan="3">
+     <widget class="Line" name="line_12">
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="lineWidth">
+       <number>2</number>
+      </property>
+      <property name="midLineWidth">
+       <number>1</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="7">
+     <widget class="QLabel" name="totalEntidades">
+      <property name="text">
+       <string>Total de entidades</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="7">
+     <widget class="QLabel" name="numeroViagem">
+      <property name="text">
+       <string>Numero de viagens</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="7">
+     <widget class="QLabel" name="passosSimulacao">
+      <property name="text">
+       <string>Passos de simulacao</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="7">
+     <widget class="Line" name="line_13">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="7">
+     <widget class="QLabel" name="tempoMinimoCiclo">
+      <property name="text">
+       <string>Tempo minimo de ciclo</string>
+      </property>
+     </widget>
+    </item>
+    <item row="13" column="7">
+     <widget class="QLabel" name="tempoMaximoCiclo">
+      <property name="text">
+       <string>Tempo maximo de ciclo</string>
+      </property>
+     </widget>
+    </item>
+    <item row="14" column="7">
+     <widget class="QLabel" name="tempoMedioCiclo">
+      <property name="text">
+       <string>Tempo medio de ciclo</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="5">
+     <widget class="QLabel" name="textoVelocidade">
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="text">
+       <string>Velocidade da simulacao</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="7">
+     <widget class="QSlider" name="sliderVelocidade">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>699</width>
+     <height>17</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
  </widget>
- <layoutDefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
+ <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections/>
 </ui>

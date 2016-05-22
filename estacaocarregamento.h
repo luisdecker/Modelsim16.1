@@ -3,6 +3,7 @@
 #include "relogio.h"
 #include <list>
 #include <vector>
+#include <algorithm>
 #include "caminhao.h"
 #include "evento.h"
 #include "rn.h"
@@ -26,10 +27,15 @@ public:
     int maximoFila() {return maximoEntidadesNaFila;}
     int minimoFila() {return minimoEntidadesNaFila;}
 
+    int getTempoMaximoFila() {atualizaEstatisticasTempoFila(); return tempoMaximoFila.getSegundosSimulacao();}
+    int getTempoMinimoFila() {atualizaEstatisticasTempoFila(); return tempoMinimoFila.getSegundosSimulacao();}
+    double getMediaTempoFila();
+
     bool estacao1Livre() {return livre[0];}
     bool estacao2Livre() {return livre[1];}
 private:
     RN::Distribuicao distTC; //Distribuicao de variaveis aleatorias;
+
 
 
     bool temEstacaoLivre();
@@ -39,7 +45,8 @@ private:
 
     Relogio tempoMinimoFila;//Menor tempo em que uma entidade ficou na fila;
     Relogio tempoMaximoFila;//Maior tempo em que uma entidade ficou na fila;
-    std::vector<Relogio *> temposDeFila; //Tempos em que entidades ficaram em fila;
+    std::vector<Relogio> temposDeFila; //Tempos em que entidades ficaram em fila;
+    void atualizaEstatisticasTempoFila ();
 
     int tempoTotalOcupacaoPlataforma[2] = {0,0};
 

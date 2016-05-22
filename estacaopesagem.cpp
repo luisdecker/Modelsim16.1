@@ -28,6 +28,7 @@ Evento *EstacaoPesagem::enfileirarCaminhao( Caminhao *caminhao, Relogio horaAtua
     Evento *eventoPesagem;
     if( livre ) {
         eventoPesagem = new Evento( Evento::pesagem, horaAtual,caminhao );
+        atualizaTemposFila( Relogio() );
         return eventoPesagem;
     }
     eventoPesagem = new Evento ( Evento::pesagem,proximoTempoLivre,caminhao );
@@ -40,6 +41,7 @@ Evento *EstacaoPesagem::enfileirarCaminhao( Caminhao *caminhao, Relogio horaAtua
 //===============================================
 Evento *EstacaoPesagem::pesarCaminhao( Caminhao *caminhao, Relogio horaAtual ) {
     livre = false;
+    diminuiNumeroNaFila();
     caminhaoOcupandoPlataforma = caminhao;
     int TP = distTP();
     tempoTotalOcupacaoPlataforma += TP;
@@ -65,10 +67,11 @@ void EstacaoPesagem::modificarDistribuicaoTC( RN::Distribuicao dist ) {
 void EstacaoPesagem::atualizaTemposFila( Relogio tempoFila ) {
     Relogio zero = Relogio();
     if ( tempoFila == zero ) {
+        temposDeFila.push_back( Relogio () );
         return;
     }
     //Atualiza a lista de tempos de fila
-    temposDeFila.push_back( new Relogio( tempoFila ) );
+    temposDeFila.push_back( Relogio( tempoFila ) );
     //Atualiza o tempo mínimo em fila
     if( tempoFila < tempoMinimoFila ) {
         tempoMinimoFila = tempoFila;
@@ -106,6 +109,19 @@ double EstacaoPesagem::mediaFila() {
         somaTotal += numeroEmFila;
     }
     return somaTotal / somaFila.size();
+}
+//===============================================
+void EstacaoPesagem::atualizaEstatisticasTempoFila() {
+    tempoMaximoFila = *std::max_element( temposDeFila.begin(),temposDeFila.end() );
+    tempoMinimoFila = *std::min_element( temposDeFila.begin(),temposDeFila.end() );
+}
+//===============================================
+double EstacaoPesagem::getMediaTempoFila() {
+    int somaTemposFila;
+    for( Relogio tempoDeFila :temposDeFila ) {
+        somaTemposFila += tempoDeFila.getSegundosSimulacao();
+    }
+    return ( double ) somaTemposFila / ( double ) temposDeFila.size();
 }
 
 

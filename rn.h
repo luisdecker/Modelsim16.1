@@ -11,8 +11,8 @@ namespace RN {
     class Distribuicao {
     public:
 
-        virtual double gerarVariavelAleatoria() {return 666;};
-        virtual double operator() () {return 666;};
+        virtual double gerarVariavelAleatoria() {return 0;};
+        virtual double operator() () {return 0;};
         virtual ~Distribuicao() {};
     };
 

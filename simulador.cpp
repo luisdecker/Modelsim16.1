@@ -19,6 +19,7 @@ void Simulador::simular() {
     Evento *proximoEvento = calendarioEventos.obterProximoEvento();
     calendarioEventos.consumirEvento();
     relogioDeSimulacao = *proximoEvento->obterTempoRelogio();
+    numeroEventos++;
     switch ( proximoEvento->tipo ) {
         case Evento::inicio: {inicioSimulacao(  ); break;}
         case Evento::chegadaCarga: {chegadaCarga( proximoEvento ); break;}
@@ -27,6 +28,11 @@ void Simulador::simular() {
         case Evento::pesagem: {pesagem( proximoEvento ); break;}
         case Evento::transporte: {transporte( proximoEvento ); break;}
     }
+    //Atualizar estatísticas
+    atualizarEstatisticasFilaCarregamento();
+    atualizarEstatisticasFilaPesagem();
+    atualizarOcupacaoRecursos();
+    atualizarEstatisticasCiclo();
 }
 /*===============================================
              Eventos de simulação
@@ -49,6 +55,7 @@ void Simulador::inicioSimulacao( ) {
 void Simulador::chegadaCarga( Evento *e ) {
     if( e->entidade()->jaViajou() ) {
         numeroViagens++;//Estatistica e (Contagem de viagens)
+        temposDeCiclo.push_back( e->entidade()->fimViagem( relogioDeSimulacao ).getSegundosSimulacao() );
     }
     e->entidade()->inicioViagem( relogioDeSimulacao );
     Evento *carga = estacaoCarregamento.enfileirarCaminhao( e->entidade(),relogioDeSimulacao );
@@ -108,13 +115,49 @@ void Simulador::atualizarEstatisticasFilaCarregamento() {
     maximoFilaCarregamento = estacaoCarregamento.maximoFila();
     minimoFilaCarregamento = estacaoCarregamento.minimoFila();
     mediaFilaCarregamento = estacaoCarregamento.mediaFila();
+    //Estatísticas para tempos em fila
+    tempoMaximoFilaCarregamento = estacaoCarregamento.getTempoMaximoFila();
+    tempoMinimoFilaCarregamento = estacaoCarregamento.getTempoMinimoFila();
+    mediaTempoFilaCarregamento = estacaoCarregamento.getMediaTempoFila();
 }
 //===============================================
 void Simulador::atualizarEstatisticasFilaPesagem() {
+    //Estatísticas para numero de entidades em fila
     maximoFilaPesagem = estacaoPesagem.maximoFila();
     minimoFilaPesagem = estacaoPesagem.minimoFila();
     mediaFilaPesagem = estacaoPesagem.mediaFila();
+    //Estatísticas para tempos em fila
+    tempoMaximoFilaPesagem = estacaoPesagem.getTempoMaximoFila();
+    tempoMinimoFilaPesagem = estacaoPesagem.getTempoMinimoFila();
+    mediaTempoFilaPesagem = estacaoPesagem.getMediaTempoFila();
 }
-
-
+//===============================================
+void Simulador::atualizarOcupacaoRecursos() {
+    if( numeroEventos > 0 ) {
+        if( !estacaoCarregamento.estacao1Livre() ) {
+            eventosEC1Ocupado++;
+        }
+        if( !estacaoCarregamento.estacao2Livre() ) {
+            eventosEC2Ocupado++;
+        }
+        if( !estacaoPesagem.estacaoLivre() ) {
+            eventosEPOcupado++;
+        }
+        taxaOcupacaoCarregamento1 = ( double )eventosEC1Ocupado/( double )numeroEventos;
+        taxaOcupacaoCarregamento2 = ( double ) eventosEC2Ocupado/ ( double ) numeroEventos;
+        taxaOcupacaoPesagem = ( double ) eventosEPOcupado / ( double )numeroEventos;
+    }
+}
+//===============================================
+void Simulador::atualizarEstatisticasCiclo() {
+    if( numeroViagens>0 ) {
+        tempoMaximoCiclo = *std::max_element( temposDeCiclo.begin(),temposDeCiclo.end() );
+        tempoMinimoCiclo = *std::min_element( temposDeCiclo.begin(),temposDeCiclo.end() );
+        int somaTemposCiclo = 0;
+        for( int tempoCiclo : temposDeCiclo ) {
+            somaTemposCiclo += tempoCiclo;
+        }
+        tempoMedioCiclo = ( double ) somaTemposCiclo/numeroViagens;
+    }
+}
 

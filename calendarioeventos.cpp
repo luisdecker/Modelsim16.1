@@ -3,12 +3,23 @@
 CalendarioEventos::CalendarioEventos() {
 }
 //===============================================
-void CalendarioEventos::IncluirEvento(Evento *evento) {
+bool tipoPrimario( Evento *e ) {
+    return  ( e->tipo==Evento::carga||e->tipo==Evento::pesagem||e->tipo==Evento::transporte );
+}
+//===============================================
+void CalendarioEventos::IncluirEvento( Evento *evento ) {
     calendario.push_back( evento );
-    std::sort( calendario.begin(),calendario.end(),metodoComparacaoEventos );
+    std::stable_sort( calendario.begin(),calendario.end(),metodoComparacaoEventos );
 }
 //===============================================
 bool CalendarioEventos::metodoComparacaoEventos( Evento *primeiro,Evento *segundo ) {
+    if ( primeiro->obterTempoRelogio()==segundo->obterTempoRelogio() ) {
+        if( tipoPrimario( primeiro ) && !tipoPrimario( segundo ) ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     return *primeiro < *segundo;
 }
 //===============================================
