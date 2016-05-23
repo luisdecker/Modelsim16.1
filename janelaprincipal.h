@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <string>
+#include <thread>
 #include "ui_janelaprincipal.h"
 #include "simulador.h"
 #include "janelaconfiguracao.h"
