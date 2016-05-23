@@ -139,9 +139,34 @@ JanelaPrincipal::~JanelaPrincipal() {
     delete ui;
 }
 
-void JanelaPrincipal::on_botaoSimularPasso_clicked() {
+void JanelaPrincipal::simularPasso() {
     this->simulador->simular();
     passosSimulacao++;
     std::cout <<"===========Simulou==========" <<std::endl;
     atualizarValores();
 }
+
+void JanelaPrincipal::on_botaoSimularPasso_clicked() {
+    simularPasso();
+}
+
+void JanelaPrincipal::on_botaoInciarPausar_clicked() {
+    simulando = !simulando;
+    if( simulando ) {
+        ui->botaoInciarPausar->setText( "Pausar Simulacao" );
+        threadSimulacao= std::thread( threadFunc,this,msSleep ,&simulando );
+        return;
+    } else {
+        threadSimulacao.join();
+        ui->botaoInciarPausar->setText( "Iniciar Simulacao" );
+    }
+}
+
+void JanelaPrincipal::threadFunc( JanelaPrincipal *mae, int msSleep ,bool *rodando ) {
+    while( *rodando ) {
+        mae->salto();
+        std::this_thread::sleep_for( std::chrono::milliseconds( msSleep ) );
+    }
+}
+
+void JanelaPrincipal::salto() {simularPasso();}
