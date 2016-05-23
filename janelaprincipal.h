@@ -23,17 +23,25 @@ public:
         RN::Distribuicao *distTT;
         int numEntidades;
     };
-    void atualizarConfiguracoes( configs novasConfiguracoes );
-
+    void atualizarConfiguracoes( configs novasConfiguracoes , JanelaPrincipal *isso );
+    bool foiConfigurado() {return configurado;}
 private slots:
     void on_botaoConfigurar_clicked();
 
+    void on_botaoSimularPasso_clicked();
+
 private:
+    RN::Distribuicao *distTC = 0;
+    RN::Distribuicao *distTP = 0;
+    RN::Distribuicao *distTT = 0;
+    int numeroEntidades = 0;
+
+    int passosSimulacao = 0;
     void atualizarValores();
     bool configurado = false;
     Ui::JanelaPrincipal *ui;
     Simulador *simulador;
-    configs configuracoesAtuais;
+
 };
 
 #endif // JANELAPRINCIPAL_H

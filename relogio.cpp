@@ -41,4 +41,15 @@ void Relogio::adicionaDias( int dias ) {
 }
 
 //===============================================
-
+std::string Relogio::toString() {
+    atualizaTempos();
+    std::string retorno = "";
+    retorno += std::to_string( getDias() );
+    retorno += ":";
+    retorno += std::to_string( getHoras() );
+    retorno += ":";
+    retorno += std::to_string( ( getMinutos() ) );
+    retorno += ":";
+    retorno += std::to_string( getSegundos() );
+    return retorno;
+}

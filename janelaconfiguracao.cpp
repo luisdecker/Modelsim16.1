@@ -249,7 +249,7 @@ bool JanelaConfiguracao::validarEntradas() {
     if( ui->parametro1TT->isEnabled() && ui->parametro1TT->text().isEmpty() ) retorno = false;
     if( ui->parametro2TT->isEnabled() && ui->parametro2TT->text().isEmpty() ) retorno = false;
     if( ui->parametro3TT->isEnabled() && ui->parametro3TT->text().isEmpty() ) retorno = false;
-    if( ui->numeroEntidades->text().isEmpty() ) retorno =false;
+    if( ui->numeroEntidades->text().isEmpty() && !mae->foiConfigurado() ) retorno =false;
     return retorno;
 }
 
@@ -277,16 +277,32 @@ void JanelaConfiguracao::on_selecaoDistTT_currentIndexChanged( int index ) {
 }
 //===============================================
 void JanelaConfiguracao::on_botaoOK_clicked() {
+    std::string distsString[5]= {"constante", "triangular", "exponencial", "normal", "uniforme"};
     std::cout<<( validarEntradas()?"Entradas Validas!":"Entradas Invalidas!" ) << std::endl;
     if( validarEntradas() ) {
         JanelaPrincipal::configs configuracoes;
         configuracoes.distTC=obterDistribuicaoSelecionadaTC();
+        if( configuracoes.distTC==nullptr ) std::cout <<"NULL TC CONF" << std::endl;
+        std::cout << "TC = " << configuracoes.distTC << std::endl;
         configuracoes.distTP= obterDistribuicaoSelecionadaTP();
+        if( configuracoes.distTP==nullptr ) std::cout <<"NULL TP CONF" << std::endl;
+        std::cout << "TP = " << configuracoes.distTP << std::endl;
         configuracoes.distTT=obterDistribuicaoSelecionadaTT();
+        if( configuracoes.distTT==nullptr ) std::cout <<"NULL TR CONF" << std::endl;
+        std::cout << "TT = " << configuracoes.distTT << std::endl;
         configuracoes.numEntidades = ui->numeroEntidades->text().toInt();
-        mae->atualizarConfiguracoes( configuracoes );
+        std::cout << "Numero de entidades: " << configuracoes.numEntidades << std::endl;
+        std::cout << "Vai atualizar as configuracoes!" << std::endl;
+        std::cout << "Mae = " << mae << std::endl;
+        mae->atualizarConfiguracoes( configuracoes,mae );
+        std::cout << "Atualizou as configuracoes , fechando janela de config!" << std::endl;
+        this->close();
     }
 }
 //===============================================
 
 
+
+void JanelaConfiguracao::on_botaoCancelar_clicked() {
+    this->close();
+}

@@ -9,7 +9,7 @@ double RN::Constante::gerarVariavelAleatoria() {
 }
 //=============================================================================
 double RN::Triangular::gerarVariavelAleatoria() {
-    double random = ( std::rand()%10000 )/10000;
+    double random = ( double )( std::rand()%10000 )/10000;
     if( random <= ( ( c-a )/( b-a ) ) ) {
         return a + sqrt( random*( ( c-a )/( b-a ) ) );
     } else {
@@ -18,7 +18,7 @@ double RN::Triangular::gerarVariavelAleatoria() {
 }
 //=============================================================================
 double RN::Exponencial::gerarVariavelAleatoria() {
-    double random = ( std::rand()%10000 )/10000;
+    double random = ( double )( std::rand()%10000 )/10000;
     return ( -1 )*( media * ( log( 1-random ) ) );
 }
 //=============================================================================
@@ -27,7 +27,7 @@ double RN::Normal::gerarVariavelAleatoria() {
         proximoCalculado = false;
         return proximo;
     }
-    double random1 = ( std::rand()%10000 )/10000, random2 = ( std::rand()%10000 )/10000;
+    double random1 =( double ) (  std::rand()%10000 )/10000, random2 =( double )(  std::rand()%10000 )/10000;
     double z1 = sqrt( -2 * log( random1 ) ) * cos( 2*M_PI*random2 );
     double z2 = sqrt( -2 * log( random1 ) ) * sin( 2*M_PI*random2 );
     proximo = media + ( desvio * z2 );
@@ -36,7 +36,7 @@ double RN::Normal::gerarVariavelAleatoria() {
 }
 //=============================================================================
 double RN::Uniforme::gerarVariavelAleatoria() {
-    double random = ( std::rand()%10000 )/10000;
+    double random = ( double )( std::rand()%10000 )/10000;
     return minimo + ( ( maximo - minimo ) * random );
 }
 

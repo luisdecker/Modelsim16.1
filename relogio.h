@@ -3,6 +3,7 @@
 #define SEGUNDOS_DIA 86400
 #define SEGUNDOS_HORA 3600
 #define SEGUNDOS_MINUTO 60
+#include <string>
 
 class Relogio {
 public:
@@ -12,6 +13,7 @@ public:
 	void adicionaMinutos( int minutos );
 	void adicionaHoras( int horas );
 	void adicionaDias( int dias );
+    std::string toString();
 
 	void operator<<( Relogio outro );
 	bool operator<( Relogio outro ) {return segundosSimulados < outro.segundosSimulados;}
@@ -28,8 +30,9 @@ public:
 	int getSegundos() {return segundos;}
 	int getSegundosSimulacao() {return segundosSimulados;}
 
+
 private:
-	int segundos, minutos,horas,dias,segundosSimulados;
+    int segundos=0, minutos=0,horas=0,dias=0,segundosSimulados=0;
 
 };
 

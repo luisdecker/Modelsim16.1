@@ -9,10 +9,10 @@ EstacaoCarregamento::EstacaoCarregamento() {
 	tempoMaximoFila = Relogio();
 	minimoEntidadesNaFila = 0;
 	maximoEntidadesNaFila = 0;
-	distTC = RN::Constante( 1.0 );
+    distTC = new RN::Constante( 1.0 );
 }
 //===============================================
-EstacaoCarregamento::EstacaoCarregamento( RN::Distribuicao distribuicaoProbabilidadeTC ) {
+EstacaoCarregamento::EstacaoCarregamento( RN::Distribuicao *distribuicaoProbabilidadeTC ) {
 	tempoMinimoFila = Relogio();
 	tempoMaximoFila = Relogio();
 	minimoEntidadesNaFila = 0;
@@ -26,7 +26,8 @@ EstacaoCarregamento::EstacaoCarregamento( RN::Distribuicao distribuicaoProbabili
 
 
 Evento *EstacaoCarregamento::enfileirarCaminhao( Caminhao *caminhao, Relogio horaAtual ) {
-	Evento *eventoCarga;
+    std::cout << "[Enfileirando caminhão carga]"<<std::endl;
+    Evento *eventoCarga;
 	if( temEstacaoLivre() ) {
 		eventoCarga = new Evento( Evento::carga,horaAtual,caminhao );
 		atualizaTemposFila( Relogio() );
@@ -34,34 +35,42 @@ Evento *EstacaoCarregamento::enfileirarCaminhao( Caminhao *caminhao, Relogio hor
 	}
 	eventoCarga = new Evento( Evento::carga,proximoTempoLivre,caminhao );
 	Relogio tempoEmFila( proximoTempoLivre );
-	tempoEmFila -= horaAtual;
+    std::cout <<">Carregamento ocupado " << horaAtual.getSegundosSimulacao()<< " - " << proximoTempoLivre.getSegundosSimulacao()<<std::endl;
+    tempoEmFila -= horaAtual;
 	atualizaTemposFila( tempoEmFila );
 	aumentaNumeroNaFila();
 	return eventoCarga;
 }
 //===============================================
 Evento *EstacaoCarregamento::carregarCaminhao( Caminhao *caminhao, Relogio horaAtual ) {
+    std::cout << "[Carregando caminhão]"<<std::endl;
 	int plataformaOcupando;
     diminuiNumeroNaFila();
 	//Verifica qual plataforma está livre
-	plataformaOcupando = plataformaLivre();
+    plataformaOcupando = plataformaLivre();
 	livre[plataformaOcupando-1] = false;//ocupa a plataforma
 	caminhaoOcupandoPlataforma[plataformaOcupando-1] = caminhao;//Seta o caminhao que está ocupando essa plataforma
-	int TC = distTC();//Gera o TC
+    int TC = distTC->gerarVariavelAleatoria();//Gera o TC
+    std::cout<<"[TC = " << TC<< "]" << std::endl;
 	tempoTotalOcupacaoPlataforma[plataformaOcupando-1] += TC;//Aumenta o tempo total de ocupação desta plataforma
 	Relogio fimCarga( horaAtual );
 	Relogio relTC = Relogio();
 	relTC.adicionaSegundos( TC );
 	fimCarga << relTC;
 	horaLiberacaoPlataforma[plataformaOcupando-1] = fimCarga;
-	if( proximoTempoLivre > fimCarga ) {
-		proximoTempoLivre = fimCarga;
-	}
+    if( horaLiberacaoPlataforma[0] < horaLiberacaoPlataforma[1] ) {
+        proximoTempoLivre = horaLiberacaoPlataforma[0];
+    } else {
+        proximoTempoLivre = horaLiberacaoPlataforma[1];
+    }
+    jaUtilizada [plataformaOcupando-1] = true;
+    std::cout << "[Fim da carga "<< fimCarga.getSegundosSimulacao()<< "][Proximo Livre " << proximoTempoLivre.getSegundosSimulacao()<<"]" << std::endl;
 	return new Evento( Evento::chegadaPesagem,fimCarga,caminhao );
 }
 
 //===============================================
 void EstacaoCarregamento::retirarCaminhao( Caminhao *caminhao ) {
+    std::cout << "[Retirando caminhão carregamento]"<<std::endl;
 	int plataformaRetirada;
 	if( *caminhaoOcupandoPlataforma[0]==*caminhao ) {
         plataformaRetirada = 1;
@@ -76,7 +85,13 @@ void EstacaoCarregamento::retirarCaminhao( Caminhao *caminhao ) {
 /*===============================================
            Funções auxiliares (private)
 ===============================================*/
+bool EstacaoCarregamento::plataformasVirgens() {
+    if( !jaUtilizada[0] )return true;
+    if( !jaUtilizada[1] )return true;
+    return false;
+}
 
+//===============================================
 int EstacaoCarregamento::plataformaLivre() {
 	if( livre[0] ) {
 		return  1;
@@ -85,7 +100,7 @@ int EstacaoCarregamento::plataformaLivre() {
 	}
 }
 //===============================================
-void EstacaoCarregamento::modificarDistribuicaoTC( RN::Distribuicao dist ) {
+void EstacaoCarregamento::modificarDistribuicaoTC( RN::Distribuicao *dist ) {
 	this->distTC = dist;
 }
 //===============================================
@@ -121,7 +136,8 @@ void EstacaoCarregamento::aumentaNumeroNaFila() {
 }
 //===============================================
 void EstacaoCarregamento::diminuiNumeroNaFila() {
-	numeroEntidadesEnfileiradas--;
+    if( numeroEntidadesEnfileiradas >0 )
+        numeroEntidadesEnfileiradas--;
 	somaFila.push_back( numeroEntidadesEnfileiradas );
 	if( minimoEntidadesNaFila > numeroEntidadesEnfileiradas ) {
 		minimoEntidadesNaFila = numeroEntidadesEnfileiradas;
@@ -132,21 +148,26 @@ double EstacaoCarregamento::mediaFila() {
 	if( somaFila.empty() ) return 0;
 	int somaTotal = 0;
 	for( int numeroEmFila : somaFila ) {
-		somaTotal += numeroEmFila;
+        //std::cout << "Media carregamento: somando " << numeroEmFila << std::endl;
+        somaTotal += numeroEmFila;
 	}
-	return somaTotal / somaFila.size();
+    return ( double )somaTotal / somaFila.size();
 }
 //===============================================
 void EstacaoCarregamento::atualizaEstatisticasTempoFila() {
     //Organiza os tempos de fila
-    tempoMinimoFila = *std::max_element(temposDeFila.begin(),temposDeFila.end());
-    tempoMaximoFila = *std::min_element(temposDeFila.begin(),temposDeFila.end());
+    if( temposDeFila.size()==0 ) {tempoMinimoFila = Relogio(); tempoMaximoFila=Relogio(); return;}
+    tempoMinimoFila = *std::max_element( temposDeFila.begin(),temposDeFila.end() );
+    tempoMaximoFila = *std::min_element( temposDeFila.begin(),temposDeFila.end() );
 }
 //===============================================
 double EstacaoCarregamento::getMediaTempoFila() {
-    int somaTemposFila;
-    for( Relogio tempoEmFila: temposDeFila ) {
-        somaTemposFila += tempoEmFila.getSegundosSimulacao();
+    if( temposDeFila.size()>0 ) {
+        int somaTemposFila;
+        for( Relogio tempoEmFila: temposDeFila ) {
+            somaTemposFila += tempoEmFila.getSegundosSimulacao();
+        }
+        return ( double ) somaTemposFila / ( double ) temposDeFila.size();
     }
-    return (double) somaTemposFila / (double) temposDeFila.size();
+    return 0;
 }

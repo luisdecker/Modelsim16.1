@@ -9,7 +9,7 @@ bool tipoPrimario( Evento *e ) {
 //===============================================
 void CalendarioEventos::IncluirEvento( Evento *evento ) {
     calendario.push_back( evento );
-    std::stable_sort( calendario.begin(),calendario.end(),metodoComparacaoEventos );
+    std::sort( calendario.begin(),calendario.end(),metodoComparacaoEventos );
 }
 //===============================================
 bool CalendarioEventos::metodoComparacaoEventos( Evento *primeiro,Evento *segundo ) {

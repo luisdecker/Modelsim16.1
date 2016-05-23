@@ -1,17 +1,19 @@
 #ifndef ESTACAOCARREGAMENTO_H
 #define ESTACAOCARREGAMENTO_H
-#include "relogio.h"
+
+#include <iostream>
 #include <list>
 #include <vector>
 #include <algorithm>
 #include "caminhao.h"
 #include "evento.h"
 #include "rn.h"
+#include "relogio.h"
 
 class EstacaoCarregamento {
 public:
     EstacaoCarregamento();
-    EstacaoCarregamento( RN::Distribuicao distribuicaoProbabilidadeTC );
+    EstacaoCarregamento( RN::Distribuicao *distribuicaoProbabilidadeTC );
 
     /*Enfilera um caminhão, caso esteja ocupado
       Retorna um evento para a hora de carga do caminhao*/
@@ -20,7 +22,7 @@ public:
     /*Calcula o tempo de atendimento do caminhão, e atualiza os tempos livres*/
     Evento *carregarCaminhao( Caminhao *caminhao, Relogio horaAtual );
 
-    void modificarDistribuicaoTC( RN::Distribuicao dist );
+    void modificarDistribuicaoTC( RN::Distribuicao *dist );
     void retirarCaminhao( Caminhao *caminhao );
 
     double mediaFila();
@@ -34,17 +36,19 @@ public:
     bool estacao1Livre() {return livre[0];}
     bool estacao2Livre() {return livre[1];}
 private:
-    RN::Distribuicao distTC; //Distribuicao de variaveis aleatorias;
+    RN::Distribuicao *distTC; //Distribuicao de variaveis aleatorias;
 
 
 
     bool temEstacaoLivre();
-    Relogio proximoTempoLivre;//Próximo horário em que alguma plataforma estará livre
-    Relogio horaLiberacaoPlataforma[2];//Próximo horário em que a plataforma n estará livre
+    Relogio proximoTempoLivre = Relogio();//Próximo horário em que alguma plataforma estará livre
+    bool jaUtilizada[2] {false,false};
+    bool plataformasVirgens();
+    Relogio horaLiberacaoPlataforma[2]= {Relogio(),Relogio()};//Próximo horário em que a plataforma n estará livre
 
 
-    Relogio tempoMinimoFila;//Menor tempo em que uma entidade ficou na fila;
-    Relogio tempoMaximoFila;//Maior tempo em que uma entidade ficou na fila;
+    Relogio tempoMinimoFila = Relogio();//Menor tempo em que uma entidade ficou na fila;
+    Relogio tempoMaximoFila = Relogio();//Maior tempo em que uma entidade ficou na fila;
     std::vector<Relogio> temposDeFila; //Tempos em que entidades ficaram em fila;
     void atualizaEstatisticasTempoFila ();
 
@@ -52,10 +56,10 @@ private:
 
     Caminhao *caminhaoOcupandoPlataforma[2];//Caminhão que está ocupado a n plataforma.
 
-    int totalEntidadesEnfileiradas;
+    int totalEntidadesEnfileiradas = 0;
     std::vector<int> somaFila;
-    int numeroEntidadesEnfileiradas;//Numero de entidades na fila do recurso
-    int maximoEntidadesNaFila, minimoEntidadesNaFila; //Menor e maior número de entidades que ficaram na fila
+    int numeroEntidadesEnfileiradas = 0;//Numero de entidades na fila do recurso
+    int maximoEntidadesNaFila = 0, minimoEntidadesNaFila = 0; //Menor e maior número de entidades que ficaram na fila
 
     void atualizaTemposFila( Relogio tempoFila );//Atualiza os tempos de fila
     bool livre[2] = {true,true}; //Disponibilidade das plataformas

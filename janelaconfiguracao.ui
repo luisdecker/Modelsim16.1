@@ -3,7 +3,7 @@
  <class>JanelaConfiguracao</class>
  <widget class="QMainWindow" name="JanelaConfiguracao">
   <property name="windowModality">
-   <enum>Qt::ApplicationModal</enum>
+   <enum>Qt::NonModal</enum>
   </property>
   <property name="geometry">
    <rect>
@@ -47,7 +47,7 @@
     <item row="3" column="0">
      <widget class="QLabel" name="label_4">
       <property name="text">
-       <string>Numero de entidades</string>
+       <string>Numero de caminhoes</string>
       </property>
      </widget>
     </item>

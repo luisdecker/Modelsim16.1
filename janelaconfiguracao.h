@@ -15,12 +15,12 @@ class JanelaConfiguracao : public QMainWindow {
     Q_OBJECT
 
 public:
-    explicit JanelaConfiguracao( QWidget *parent = 0, JanelaPrincipal* mae = 0);
+    explicit JanelaConfiguracao( QWidget *parent = 0, JanelaPrincipal *mae = 0 );
     ~JanelaConfiguracao();
 private slots:
-    RN::Distribuicao* obterDistribuicaoSelecionadaTC(  );
-    RN::Distribuicao* obterDistribuicaoSelecionadaTP(  );
-    RN::Distribuicao* obterDistribuicaoSelecionadaTT(  );
+    RN::Distribuicao *obterDistribuicaoSelecionadaTC(  );
+    RN::Distribuicao *obterDistribuicaoSelecionadaTP(  );
+    RN::Distribuicao *obterDistribuicaoSelecionadaTT(  );
 
 
     void atualizaInputTC( RN::TipoDist distSelecionada );
@@ -37,8 +37,10 @@ private slots:
 
     void on_botaoOK_clicked();
 
+    void on_botaoCancelar_clicked();
+
 private:
-    JanelaPrincipal * mae;
+    JanelaPrincipal *mae;
     bool validarEntradas();
     Ui::JanelaConfiguracao *ui;
 

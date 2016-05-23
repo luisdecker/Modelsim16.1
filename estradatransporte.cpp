@@ -6,10 +6,10 @@
 ===============================================*/
 
 EstradaTransporte::EstradaTransporte() {
-    distTT = RN::Constante( 1.0 );
+    distTT = new RN::Constante( 1.0 );
 }
 
-EstradaTransporte::EstradaTransporte( RN::Distribuicao distribuicaoTransporte ) {
+EstradaTransporte::EstradaTransporte( RN::Distribuicao *distribuicaoTransporte ) {
     distTT = distribuicaoTransporte;
 }
 
@@ -18,7 +18,8 @@ EstradaTransporte::EstradaTransporte( RN::Distribuicao distribuicaoTransporte ) 
 ===============================================*/
 
 Evento *EstradaTransporte::transportarCarga( Caminhao *caminhao, Relogio horaAtual ) {
-    int TT = distTT();
+    int TT = distTT->gerarVariavelAleatoria();
+    std::cout<<"[TT = " << TT<< "]" << std::endl;
     Relogio fimTransporte( horaAtual );
     Relogio relTT = Relogio();
     relTT.adicionaSegundos( TT );
@@ -30,6 +31,6 @@ Evento *EstradaTransporte::transportarCarga( Caminhao *caminhao, Relogio horaAtu
            Funções auxiliares (private)
 ===============================================*/
 
-void EstradaTransporte::modificarDistribuicaoTT(RN::Distribuicao novaDist){
+void EstradaTransporte::modificarDistribuicaoTT( RN::Distribuicao *novaDist ) {
     distTT = novaDist;
 }

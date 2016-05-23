@@ -1,8 +1,10 @@
 #ifndef SIMULADOR_H
 #define SIMULADOR_H
 
-#include "relogio.h"
+
 #include <vector>
+#include <iostream>
+#include "relogio.h"
 #include "caminhao.h"
 #include "calendarioeventos.h"
 #include "evento.h"
@@ -14,6 +16,8 @@
 class Simulador {
 public:
     struct valoresEstatistica {
+        int numeroCaminhoes;
+        Relogio horaSimulacao;
         //a)
         int maximoFilaCarregamento;
         int minimoFilaCarregamento;
@@ -49,62 +53,63 @@ public:
     Simulador( int numeroCaminhoes );
     void simular();
 
-
+    //Enviar infos pra interface
+    valoresEstatistica obterEstatisticas();
 
     //Trocar as distribuicoes
-    void trocarDistCarregamento( RN::Distribuicao novaDist );
-    void trocarDistPesagem( RN::Distribuicao novaDist );
-    void trocarDistTransporte( RN::Distribuicao novaDist );
+    void trocarDistCarregamento(RN::Distribuicao *novaDist );
+    void trocarDistPesagem( RN::Distribuicao *novaDist );
+    void trocarDistTransporte( RN::Distribuicao* novaDist );
 
 private:
     //Estatísticas
 
-    int numeroEventos;
+    int numeroEventos=0;
 
     //a) Numero de entidades nas filas
     //Carregamento
     void atualizarEstatisticasFilaCarregamento();///Atualiza as estatisticas da estação de carregamento
-    int maximoFilaCarregamento;///< Maximo de entidades na fila de carregamento
-    int minimoFilaCarregamento;///< Minimo de entidades na fila de carregamento
-    double mediaFilaCarregamento;///< Media de entidades na fila de carregamento
+    int maximoFilaCarregamento=0;///< Maximo de entidades na fila de carregamento
+    int minimoFilaCarregamento=0;///< Minimo de entidades na fila de carregamento
+    double mediaFilaCarregamento=0;///< Media de entidades na fila de carregamento
     //Pesagem
     void atualizarEstatisticasFilaPesagem();
-    int maximoFilaPesagem; ///< Maximo de entidades na fila de pesagem
-    int minimoFilaPesagem;///< Minimo de entidades na fila de pesagem
-    double mediaFilaPesagem;///< media de entidades na fila de pesagem
+    int maximoFilaPesagem=0; ///< Maximo de entidades na fila de pesagem
+    int minimoFilaPesagem=0;///< Minimo de entidades na fila de pesagem
+    double mediaFilaPesagem=0;///< media de entidades na fila de pesagem
 
     //b) Taxa média de ocupação dos recursos
     void atualizarOcupacaoRecursos();
-    double taxaOcupacaoCarregamento1;///< Taxa de ocupacao da primeira estacao de carga
-    double taxaOcupacaoCarregamento2; ///< Taxa de ocupacao da segunda estacao de carga
-    double taxaOcupacaoPesagem; ///< Taxa de ocupacao da estacao de pesagem
-    int eventosEC1Ocupado;///< Numero de eventos em que a primeira estacao de carga estava ocupada
-    int eventosEC2Ocupado;///< Numero de eventos em que a segunda estação de carga estava ocupada
-    int eventosEPOcupado;///< Numero de eventos emque a estacao de pesagem estava ocupada.
+    double taxaOcupacaoCarregamento1=0;///< Taxa de ocupacao da primeira estacao de carga
+    double taxaOcupacaoCarregamento2=0; ///< Taxa de ocupacao da segunda estacao de carga
+    double taxaOcupacaoPesagem=0; ///< Taxa de ocupacao da estacao de pesagem
+    int eventosEC1Ocupado=0;///< Numero de eventos em que a primeira estacao de carga estava ocupada
+    int eventosEC2Ocupado=0;///< Numero de eventos em que a segunda estação de carga estava ocupada
+    int eventosEPOcupado=0;///< Numero de eventos emque a estacao de pesagem estava ocupada.
 
     //c)tempo de uma entidade na fila
     //Carregamento
     //Atualização de informações feitas nos respectivos atualizarEstatisticasFila(pesagem|carregamento)
-    int tempoMaximoFilaCarregamento;///< Tempo maximo de uma entidade na fila de carregamento
-    int tempoMinimoFilaCarregamento;///< Tempo mínimo de uma entidade na fila de carregamento
-    double mediaTempoFilaCarregamento;///< Tempo médio de uma entidade na fila de carregamento
+    int tempoMaximoFilaCarregamento=0;///< Tempo maximo de uma entidade na fila de carregamento
+    int tempoMinimoFilaCarregamento=0;///< Tempo mínimo de uma entidade na fila de carregamento
+    double mediaTempoFilaCarregamento=0;///< Tempo médio de uma entidade na fila de carregamento
     //Pesagem
-    int tempoMaximoFilaPesagem;///< Tempo maximo de uma entidade na fila de pesagem
-    int tempoMinimoFilaPesagem;///< Tempo minimo de uma entidade na fila de pesagem
-    double mediaTempoFilaPesagem;///< Tempo medio de uma entidade na fila de pesagem
+    int tempoMaximoFilaPesagem=0;///< Tempo maximo de uma entidade na fila de pesagem
+    int tempoMinimoFilaPesagem=0;///< Tempo minimo de uma entidade na fila de pesagem
+    double mediaTempoFilaPesagem=0;///< Tempo medio de uma entidade na fila de pesagem
 
     //d)Tempo de ciclo
     void atualizarEstatisticasCiclo();
-    int tempoMaximoCiclo;
-    int tempoMinimoCiclo;
-    double tempoMedioCiclo;
+    int tempoMaximoCiclo=0;
+    int tempoMinimoCiclo=0;
+    double tempoMedioCiclo=0;
 
     //e)Contador de numero de viagens;
     int numeroViagens = int( 0 ); ///< Numero de viagens completadas no sistema
 
     std::vector<int> temposDeCiclo;
     Relogio relogioDeSimulacao;///< Horário atual de simulacao
-    int numeroCaminhoes;///< Numero de entidades no sistema
+    int numeroCaminhoes=0;///< Numero de entidades no sistema
     std::vector<Caminhao *> entidades;///< Lista de entidades
     CalendarioEventos calendarioEventos;///< Calendario de eventos futuros
 

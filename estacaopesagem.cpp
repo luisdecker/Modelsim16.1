@@ -10,10 +10,10 @@ EstacaoPesagem::EstacaoPesagem() {
     tempoMinimoFila = Relogio();
     minimoEntidadesNaFila = 0;
     maximoEntidadesNaFila = 0;
-    distTP = RN::Constante( 1.0 );
+    distTP = new RN::Constante( 1.0 );
 }
 
-EstacaoPesagem::EstacaoPesagem( RN::Distribuicao dist ) {
+EstacaoPesagem::EstacaoPesagem( RN::Distribuicao *dist ) {
     tempoMaximoFila = Relogio();
     tempoMinimoFila = Relogio();
     minimoEntidadesNaFila = 0;
@@ -25,6 +25,7 @@ EstacaoPesagem::EstacaoPesagem( RN::Distribuicao dist ) {
                 Eventos principais
 ===============================================*/
 Evento *EstacaoPesagem::enfileirarCaminhao( Caminhao *caminhao, Relogio horaAtual ) {
+    std::cout << "[Enfilerando caminhão pesagem]"<<std::endl;
     Evento *eventoPesagem;
     if( livre ) {
         eventoPesagem = new Evento( Evento::pesagem, horaAtual,caminhao );
@@ -40,16 +41,19 @@ Evento *EstacaoPesagem::enfileirarCaminhao( Caminhao *caminhao, Relogio horaAtua
 }
 //===============================================
 Evento *EstacaoPesagem::pesarCaminhao( Caminhao *caminhao, Relogio horaAtual ) {
+    std::cout << "[Pesando caminhão]"<<std::endl;
     livre = false;
     diminuiNumeroNaFila();
     caminhaoOcupandoPlataforma = caminhao;
-    int TP = distTP();
+    int TP = distTP->gerarVariavelAleatoria();
+    std::cout<<"[TP = " << TP<< "]" << std::endl;
     tempoTotalOcupacaoPlataforma += TP;
     Relogio fimPesagem( horaAtual );
     Relogio relTP = Relogio();
     relTP.adicionaSegundos( TP );
     fimPesagem << relTP;
     proximoTempoLivre = fimPesagem;
+    std::cout << "[Fim da pesagem "<< fimPesagem.getSegundosSimulacao()<< "][Proximo Livre " << proximoTempoLivre.getSegundosSimulacao()<<"]" << std::endl;
     return new Evento( Evento::transporte, fimPesagem,caminhao );
 }
 //===============================================
@@ -60,8 +64,9 @@ void EstacaoPesagem::retirarCaminhao() {
 /*===============================================
             Funções auxiliares (private)
 ===============================================*/
-void EstacaoPesagem::modificarDistribuicaoTC( RN::Distribuicao dist ) {
+void EstacaoPesagem::modificarDistribuicaoTP( RN::Distribuicao *dist ) {
     this->distTP = dist;
+    std::cout << "Testando troca TP " << distTP->gerarVariavelAleatoria()<<std::endl;
 }
 //===============================================
 void EstacaoPesagem::atualizaTemposFila( Relogio tempoFila ) {
@@ -94,7 +99,8 @@ void EstacaoPesagem::aumentaNumeroNaFila() {
 //===============================================
 
 void EstacaoPesagem::diminuiNumeroNaFila() {
-    numeroEntidadesEnfileiradas--;
+    if( numeroEntidadesEnfileiradas>0 )
+        numeroEntidadesEnfileiradas--;
     somaFila.push_back( numeroEntidadesEnfileiradas );
     if( minimoEntidadesNaFila > numeroEntidadesEnfileiradas ) {
         minimoEntidadesNaFila = numeroEntidadesEnfileiradas;
@@ -112,11 +118,13 @@ double EstacaoPesagem::mediaFila() {
 }
 //===============================================
 void EstacaoPesagem::atualizaEstatisticasTempoFila() {
+    if( temposDeFila.size()<1 ) {tempoMaximoFila = Relogio(); tempoMinimoFila = Relogio(); return;}
     tempoMaximoFila = *std::max_element( temposDeFila.begin(),temposDeFila.end() );
     tempoMinimoFila = *std::min_element( temposDeFila.begin(),temposDeFila.end() );
 }
 //===============================================
 double EstacaoPesagem::getMediaTempoFila() {
+    if( !( temposDeFila.size()>0 ) ) return 0;
     int somaTemposFila;
     for( Relogio tempoDeFila :temposDeFila ) {
         somaTemposFila += tempoDeFila.getSegundosSimulacao();

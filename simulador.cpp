@@ -41,18 +41,24 @@ void Simulador::simular() {
 void Simulador::inicioSimulacao( ) {
     for( int i = 0; i<numeroCaminhoes; i++ ) {
         entidades.push_back( new Caminhao( i+1 ) );
+        std::cout << "Incluiu caminhao " << entidades.back() << std::endl;
+        entidades.shrink_to_fit();
     }
     for( int i = 0; i<numeroCaminhoes; i++ ) {
         Relogio tempoEvento = Relogio( relogioDeSimulacao );
         if( i>=2 ) {
             tempoEvento.adicionaSegundos( 2 );//cria os dois primeiros eventos em t0 e os seguintes depois, para dar tempo de ocupar o recurso
         }
-        calendarioEventos.IncluirEvento( new Evento( Evento::TipoEvento::chegadaCarga,tempoEvento,entidades[i] ) );
+        if( entidades.at( entidades.size()-i-1 ) == nullptr ) {
+            std::cout << "Entidades " << i << " nulo!["<<entidades.size()<<"]"<< std::endl;
+        }
+        calendarioEventos.IncluirEvento( new Evento( Evento::TipoEvento::chegadaCarga,tempoEvento,entidades[entidades.size()-1-i] ) );
     }
 }
 //===============================================
 //Evento de chegada na estação de carga
 void Simulador::chegadaCarga( Evento *e ) {
+    if( e->entidade()==nullptr ) {std::cout<<"Caminhao nulo fila carga" << std::endl;}
     if( e->entidade()->jaViajou() ) {
         numeroViagens++;//Estatistica e (Contagem de viagens)
         temposDeCiclo.push_back( e->entidade()->fimViagem( relogioDeSimulacao ).getSegundosSimulacao() );
@@ -94,15 +100,16 @@ void Simulador::transporte( Evento *e ) {
         Métodos de troca de Distribuicoes
 ===============================================*/
 
-void Simulador::trocarDistCarregamento( RN::Distribuicao novaDist ) {
+void Simulador::trocarDistCarregamento( RN::Distribuicao *novaDist ) {
     estacaoCarregamento.modificarDistribuicaoTC( novaDist );
 }
 //===============================================
-void Simulador::trocarDistPesagem( RN::Distribuicao novaDist ) {
-    estacaoPesagem.modificarDistribuicaoTC( novaDist );
+void Simulador::trocarDistPesagem( RN::Distribuicao *novaDist ) {
+    std::cout << "Sim testando troca TP "<< novaDist->gerarVariavelAleatoria()<<std::endl;
+    estacaoPesagem.modificarDistribuicaoTP( novaDist );
 }
 //===============================================
-void Simulador::trocarDistTransporte( RN::Distribuicao novaDist ) {
+void Simulador::trocarDistTransporte( RN::Distribuicao *novaDist ) {
     estrada.modificarDistribuicaoTT( novaDist );
 }
 
@@ -160,4 +167,38 @@ void Simulador::atualizarEstatisticasCiclo() {
         tempoMedioCiclo = ( double ) somaTemposCiclo/numeroViagens;
     }
 }
-
+//===============================================
+Simulador::valoresEstatistica Simulador::obterEstatisticas() {
+    valoresEstatistica retorno;
+    retorno.numeroCaminhoes=numeroCaminhoes;
+    retorno.horaSimulacao=relogioDeSimulacao;
+    //a)
+    //Carregamento
+    retorno.maximoFilaCarregamento=maximoFilaCarregamento;
+    retorno.minimoFilaCarregamento = minimoFilaCarregamento;
+    retorno.mediaFilaCarregamento = mediaFilaCarregamento;
+    //Pesagem
+    retorno.maximoFilaPesagem = maximoFilaPesagem;
+    retorno.minimoFilaPesagem = minimoFilaPesagem;
+    retorno.mediaFilaPesagem = mediaFilaPesagem;
+    //b)
+    retorno.taxaOcupacaoCarregamento1 = taxaOcupacaoCarregamento1;
+    retorno.taxaOcupacaoCarregamento2 = taxaOcupacaoCarregamento2;
+    retorno.taxaOcupacaoPesagem = taxaOcupacaoPesagem;
+    //c)
+    //Carregamento
+    retorno.tempoMaximoFilaCarregamento = tempoMaximoFilaCarregamento;
+    retorno.tempoMinimoFilaCarregamento = tempoMinimoFilaCarregamento;
+    retorno.mediaTempoFilaCarregamento = mediaTempoFilaCarregamento;
+    //Pesagem
+    retorno.tempoMaximoFilaPesagem = tempoMaximoFilaPesagem;
+    retorno.tempoMinimoFilaPesagem =tempoMinimoFilaPesagem;
+    retorno.mediaTempoFilaPesagem = mediaTempoFilaPesagem;
+    //d)
+    retorno.tempoMaximoCiclo = tempoMaximoCiclo;
+    retorno.tempoMinimoCiclo= tempoMinimoCiclo;
+    retorno.tempoMedioCiclo = tempoMedioCiclo;
+    //e)
+    retorno.numeroViagens= numeroViagens;
+    return retorno;
+}

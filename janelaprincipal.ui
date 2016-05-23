@@ -341,13 +341,6 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="7">
-     <widget class="QLabel" name="passosSimulacao">
-      <property name="text">
-       <string>Passos de simulacao</string>
-      </property>
-     </widget>
-    </item>
     <item row="8" column="7">
      <widget class="Line" name="line_13">
       <property name="orientation">
@@ -396,6 +389,20 @@
       </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="15" column="7">
+     <widget class="QLabel" name="passosSimulacao">
+      <property name="text">
+       <string>Passos de simulacao</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="7">
+     <widget class="QLabel" name="relogioSimulacao">
+      <property name="text">
+       <string>Relogio de simulação</string>
       </property>
      </widget>
     </item>
