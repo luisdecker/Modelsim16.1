@@ -159,7 +159,11 @@ void Simulador::atualizarOcupacaoRecursos() {
 void Simulador::atualizarEstatisticasCiclo() {
     if( numeroViagens>0 ) {
         tempoMaximoCiclo = *std::max_element( temposDeCiclo.begin(),temposDeCiclo.end() );
-        tempoMinimoCiclo = *std::min_element( temposDeCiclo.begin(),temposDeCiclo.end() );
+        if( ( *std::min_element( temposDeCiclo.begin(),temposDeCiclo.end() ) )> 0 ) {
+            tempoMinimoCiclo = *std::min_element( temposDeCiclo.begin(),temposDeCiclo.end() );
+        } else {
+            tempoMinimoCiclo = 0;
+        }
         int somaTemposCiclo = 0;
         for( int tempoCiclo : temposDeCiclo ) {
             somaTemposCiclo += tempoCiclo;

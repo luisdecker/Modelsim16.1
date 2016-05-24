@@ -297,6 +297,8 @@ void JanelaConfiguracao::on_botaoOK_clicked() {
         mae->atualizarConfiguracoes( configuracoes,mae );
         std::cout << "Atualizou as configuracoes , fechando janela de config!" << std::endl;
         this->close();
+    }else{
+        ui->EntradasOk->setText("=>ENTRADAS INCORRETAS!<=");
     }
 }
 //===============================================

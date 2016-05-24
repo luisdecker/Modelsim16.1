@@ -114,7 +114,7 @@ double EstacaoPesagem::mediaFila() {
     for( int numeroEmFila : somaFila ) {
         somaTotal += numeroEmFila;
     }
-    return somaTotal / somaFila.size();
+    return (double)somaTotal / somaFila.size();
 }
 //===============================================
 void EstacaoPesagem::atualizaEstatisticasTempoFila() {

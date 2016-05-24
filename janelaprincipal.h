@@ -18,7 +18,7 @@ class JanelaPrincipal : public QMainWindow {
 
 public:
     void simularPasso();
-    static void threadFunc( JanelaPrincipal *mae,int msSleep,bool *rodando );
+    static void threadFunc( JanelaPrincipal *mae,int *msSleep,bool *rodando );
     explicit JanelaPrincipal( QWidget *parent = 0 );
     ~JanelaPrincipal();
     struct configs {
@@ -36,6 +36,10 @@ private slots:
     void on_botaoSimularPasso_clicked();
 
     void on_botaoInciarPausar_clicked();
+
+    void on_sliderVelocidade_valueChanged( int value );
+
+
 
 private:
     RN::Distribuicao *distTC = 0;

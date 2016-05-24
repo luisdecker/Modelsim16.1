@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>494</width>
-    <height>165</height>
+    <width>643</width>
+    <height>218</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -24,6 +24,13 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Distribuicao TT</string>
+      </property>
+     </widget>
+    </item>
     <item row="1" column="1">
      <widget class="QComboBox" name="selecaoDistTP"/>
     </item>
@@ -37,13 +44,6 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Distribuicao TT</string>
-      </property>
-     </widget>
-    </item>
     <item row="3" column="0">
      <widget class="QLabel" name="label_4">
       <property name="text">
@@ -51,10 +51,13 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>Distribuicao TP</string>
+    <item row="0" column="3">
+     <widget class="QLineEdit" name="parametro2TC">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
      </widget>
     </item>
@@ -68,13 +71,10 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="3">
-     <widget class="QLineEdit" name="parametro2TC">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Distribuicao TP</string>
       </property>
      </widget>
     </item>
@@ -141,8 +141,8 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="3">
-     <widget class="QLineEdit" name="parametro2TT">
+    <item row="2" column="4">
+     <widget class="QLineEdit" name="parametro3TT">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -151,8 +151,8 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="4">
-     <widget class="QLineEdit" name="parametro3TT">
+    <item row="2" column="3">
+     <widget class="QLineEdit" name="parametro2TT">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -185,6 +185,13 @@
       </property>
      </widget>
     </item>
+    <item row="3" column="2">
+     <widget class="QLabel" name="EntradasOk">
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -192,7 +199,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>494</width>
+     <width>643</width>
      <height>19</height>
     </rect>
    </property>

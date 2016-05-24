@@ -154,7 +154,7 @@ void JanelaPrincipal::on_botaoInciarPausar_clicked() {
     simulando = !simulando;
     if( simulando ) {
         ui->botaoInciarPausar->setText( "Pausar Simulacao" );
-        threadSimulacao= std::thread( threadFunc,this,msSleep ,&simulando );
+        threadSimulacao= std::thread( threadFunc,this,&msSleep ,&simulando );
         return;
     } else {
         threadSimulacao.join();
@@ -162,11 +162,17 @@ void JanelaPrincipal::on_botaoInciarPausar_clicked() {
     }
 }
 
-void JanelaPrincipal::threadFunc( JanelaPrincipal *mae, int msSleep ,bool *rodando ) {
+void JanelaPrincipal::threadFunc( JanelaPrincipal *mae, int *msSleep ,bool *rodando ) {
     while( *rodando ) {
         mae->salto();
-        std::this_thread::sleep_for( std::chrono::milliseconds( msSleep ) );
+        std::this_thread::sleep_for( std::chrono::milliseconds( *msSleep +1 ) );
     }
 }
 
 void JanelaPrincipal::salto() {simularPasso();}
+
+void JanelaPrincipal::on_sliderVelocidade_valueChanged( int value ) {
+    this->msSleep = value;
+}
+
+
